@@ -15,12 +15,13 @@ def place(g,une,v0,th):
     from shapely import affinity
     g=affinity.rotate(g,th,origin=(0,0))
     return transform(lambda x,y,z=None:(A[0]+(une-x)*uh[0]+(v0+y)*vh[0], A[1]+(une-x)*uh[1]+(v0+y)*vh[1]), g)
-for L in (34.8,):
-    g=fp(L); best=None
-    for th in np.arange(-6,6.1,0.5):
-        for une in np.arange(86,96,0.25):
-            for v0 in np.arange(0,6,0.25):
-                p=place(g,une,v0,th)
-                c=free.exterior.distance(p) if free.contains(p) else -p.difference(free).area
-                if best is None or c>best[0]: best=(round(c,2),th,une,v0)
-    print('L=',L,'best clearance',best)
+if __name__ == "__main__":
+    for L in (34.8,):
+      g=fp(L); best=None
+      for th in np.arange(-6,6.1,0.5):
+          for une in np.arange(86,96,0.25):
+              for v0 in np.arange(0,6,0.25):
+                  p=place(g,une,v0,th)
+                  c=free.exterior.distance(p) if free.contains(p) else -p.difference(free).area
+                  if best is None or c>best[0]: best=(round(c,2),th,une,v0)
+      print('L=',L,'best clearance',best)
